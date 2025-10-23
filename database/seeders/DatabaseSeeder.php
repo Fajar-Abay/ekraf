@@ -3,8 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Subsektor;
 use Illuminate\Database\Seeder;
+use Database\Seeders\UsahaSeeder;
+use Database\Seeders\KontakSeeder;
+use Database\Seeders\ArtikelSeeder;
+use Database\Seeders\ProfileSeeder;
+use Database\Seeders\SubsektorSeeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +24,19 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'ekraf',
+            'email' => 'ekraf@sumedang.com',
+            "password" => "sumedangsimpati"
+        ]);
+
+        $this->call([
+            KecamatanSeeder::class, // Isi tabel parent dulu
+            DesaSeeder::class,
+            ProfileSeeder::class ,
+            KontakSeeder::class  , // Baru isi tabel child
+            UsahaSeeder::class,
+            SubsektorSeeder::class,
+            ArtikelSeeder::class
         ]);
     }
 }
