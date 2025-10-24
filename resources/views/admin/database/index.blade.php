@@ -10,7 +10,7 @@
 
     {{-- Peta utama --}}
     <div id="map-container"
-        class="relative bg-gray-50 w-full h-[750px] rounded-xl shadow-lg overflow-hidden">
+        class="relative bg-gray-50 w-full h-[700px] rounded-xl shadow-lg overflow-hidden">
     </div>
 
     {{-- Card info detail --}}

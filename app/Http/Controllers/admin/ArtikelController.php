@@ -25,20 +25,20 @@ class ArtikelController extends Controller
     // Simpan artikel baru
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'isi' => 'required',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'tanggal' => 'nullable|date',
+            'penulis' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'isi' => 'required|string',
+            'sumber' => 'nullable|string|max:255',
         ]);
 
-        $data = $request->only('judul', 'isi', 'tanggal');
-
-        if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('artikel', 'public');
+       if ($request->hasFile('gambar')) {
+            $validated['gambar'] = $request->file('gambar')->store('artikel', 'public');
         }
 
-        Artikel::create($data);
+        Artikel::create($validated);
 
         return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil ditambahkan!');
     }
@@ -52,23 +52,23 @@ class ArtikelController extends Controller
     // Update artikel
     public function update(Request $request, Artikel $artikel)
     {
-        $request->validate([
+        $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'isi' => 'required',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'tanggal' => 'nullable|date',
+            'penulis' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'isi' => 'required|string',
+            'sumber' => 'nullable|string|max:255',
         ]);
-
-        $data = $request->only('judul', 'isi', 'tanggal');
 
         if ($request->hasFile('gambar')) {
             if ($artikel->gambar) {
                 Storage::disk('public')->delete($artikel->gambar);
             }
-            $data['gambar'] = $request->file('gambar')->store('artikel', 'public');
+            $validated['gambar'] = $request->file('gambar')->store('artikel', 'public');
         }
 
-        $artikel->update($data);
+        $artikel->update($validated);
 
         return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil diperbarui!');
     }

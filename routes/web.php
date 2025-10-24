@@ -22,7 +22,7 @@ Route::post('/logout', [AuthController::class, "logout"])->name("logout");
 // =====================
 // 🧭 ADMIN ROUTES (Protected by Auth)
 // =====================
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth',"admin"])->prefix('admin')->name('admin.')->group(function () {
 
     Route::view('/', 'admin.dashboard')->name('dashboard');
 
@@ -64,3 +64,15 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 // 📍 Desa API
 // =====================
 Route::get('/get-desa/{kecamatan_id}', [DesaController::class, 'getByKecamatan']);
+
+Route::middleware(['auth'])
+    ->prefix('petugas')
+    ->name('petugas.')
+    ->group(function () {
+
+        // Artikel (list, tambah, simpan, lihat detail)
+        Route::get('/artikel', [App\Http\Controllers\Petugas\ArtikelController::class, 'index'])->name('artikel.index');
+        Route::get('/artikel/tambah', [App\Http\Controllers\Petugas\ArtikelController::class, 'create'])->name('artikel.create');
+        Route::post('/artikel', [App\Http\Controllers\Petugas\ArtikelController::class, 'store'])->name('artikel.store');
+        Route::get('/artikel/{id}', [App\Http\Controllers\Petugas\ArtikelController::class, 'show'])->name('artikel.show');
+    });
