@@ -17,7 +17,7 @@ class DesaController extends Controller
         try {
             $desas = Desa::where('kecamatan_id', $kecamatan_id)
                         ->orderBy('nama_kelurahan', 'asc') // Urutkan berdasarkan nama
-                        ->get(['id', 'nama_kelurahan']); // Hanya ambil kolom yang diperlukan
+                        ->get(['id', 'nama_kelurahan', "kode_pos"]); // Hanya ambil kolom yang diperlukan
 
             return response()->json($desas);
         } catch (\Exception $e) {

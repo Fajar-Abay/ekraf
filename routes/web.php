@@ -16,6 +16,9 @@ use App\Http\Controllers\JenisKelaminController;
 use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SubsektorController;
+use App\Http\Controllers\Petugas\ArtikelController as PetugasArtikelController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LokasiController;
 
 // =====================
 // 🔐 AUTH ROUTES
@@ -25,10 +28,9 @@ Route::post('/login', [AuthController::class, "login"])->name("login");
 Route::post('/logout', [AuthController::class, "logout"])->name("logout");
 
 // =====================
-// 🧭 ADMIN ROUTES (Protected by Auth)
+// 🧭 ADMIN ROUTES
 // =====================
-Route::middleware(['auth',"admin"])->prefix('admin')->name('admin.')->group(function () {
-
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::view('/', 'admin.dashboard')->name('dashboard');
 
     // Tentang
@@ -46,12 +48,11 @@ Route::middleware(['auth',"admin"])->prefix('admin')->name('admin.')->group(func
     Route::resource('subsektor', SubsektorController::class);
     Route::get('/subsektor/{id}/detail', [SubsektorController::class, 'detail'])->name('subsektor.detail');
 
-    // Tidak perlu pakai prefix 'admin' kalau memang cuma 1 halaman
+    // Kontak
     Route::get('/kontak', [KontakController::class, 'index'])->name('kontak.index');
     Route::get('/kontak/{id}/edit', [KontakController::class, 'edit'])->name('kontak.edit');
     Route::put('/kontak/{id}', [KontakController::class, 'update'])->name('kontak.update');
-    Route::delete('users/{id}', [KontakController::class, "destroy"])->name("kontak.destroy");
-
+    Route::delete('/kontak/{id}', [KontakController::class, "destroy"])->name("kontak.destroy");
 
     // Rekap Usaha
     Route::get('/rekap', [UsahaController::class, 'index'])->name('rekap');
@@ -60,57 +61,59 @@ Route::middleware(['auth',"admin"])->prefix('admin')->name('admin.')->group(func
     Route::get('/database', [MapController::class, 'index'])->name('database');
     Route::get('/database/{id}', [MapController::class, 'show'])->name('database.show');
 
-    // Kecamatan Statistik
+    // Statistik Kecamatan
     Route::get('/kecamatan/{kode}/detail', [DatabaseController::class, 'detail'])->name('kecamatan.detail');
     Route::get('/kecamatan/{kode}/statistik', [DatabaseController::class, 'statistik'])->name('kecamatan.statistik');
 });
 
 // =====================
-// 📍 Desa API
+// 👩‍💼 PETUGAS ROUTES
 // =====================
-Route::get('/get-desa/{kecamatan_id}', [DesaController::class, 'getByKecamatan']);
-
 Route::middleware(['auth'])
     ->prefix('petugas')
     ->name('petugas.')
     ->group(function () {
-
-        // Artikel (list, tambah, simpan, lihat detail)
-        Route::get('/artikel', [App\Http\Controllers\Petugas\ArtikelController::class, 'index'])->name('artikel.index');
-        Route::get('/artikel/tambah', [App\Http\Controllers\Petugas\ArtikelController::class, 'create'])->name('artikel.create');
-        Route::post('/artikel', [App\Http\Controllers\Petugas\ArtikelController::class, 'store'])->name('artikel.store');
-        Route::get('/artikel/{id}', [App\Http\Controllers\Petugas\ArtikelController::class, 'show'])->name('artikel.show');
+        Route::get('/artikel', [PetugasArtikelController::class, 'index'])->name('artikel.index');
+        Route::get('/artikel/tambah', [PetugasArtikelController::class, 'create'])->name('artikel.create');
+        Route::post('/artikel', [PetugasArtikelController::class, 'store'])->name('artikel.store');
+        Route::get('/artikel/{id}', [PetugasArtikelController::class, 'show'])->name('artikel.show');
     });
 
-    Route::get('/', function () {
-    return view('welcome');
+// =====================
+// 🌍 PENGGUNA (USER) ROUTES
+// =====================
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/', fn() => view('user.beranda'))->name('beranda');
+    Route::get('/tentang', [UserController::class, 'tentang'])->name('tentang');
+    Route::get('/sektor', [UserController::class, 'sektor'])->name('sektor');
+    Route::get('/pendataan', [UserController::class, 'pendataan'])->name('pendataan');
+    Route::get('/kontak', [UserController::class, 'kontak'])->name('kontak');
 });
 
+// =====================
+// 📍 DATA & API
+// =====================
+Route::get('/get-desa/{kecamatan_id}', [DesaController::class, 'getByKecamatan']);
+
+// =====================
+// 🏠 HALAMAN UMUM
+// =====================
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
-
-Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
-Route::get('/kontak', function () {
-    return view('kontak');
-})->name('kontak');
-
-Route::post('/kontak/kirim', [KontakController::class, 'kirim'])->name('kontak.kirim');
-
 Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
-
 Route::get('/database', [DatabaseController::class, 'index'])->name('database');
 
+// Kontak
+Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
+Route::post('/kontak/kirim', [KontakController::class, 'kirim'])->name('kontak.kirim');
 
-//SATU KONTROLLER DI KECAMATAN
+// Kecamatan & Desa
 Route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');
 Route::get('/kecamatan/{slug}', [KecamatanController::class, 'show'])->name('kecamatan.show');
 Route::get('/desa', [KecamatanController::class, 'desa'])->name('desa');
-Route::get('/rentang-usia', [KecamatanController::class, 'rentangUsia'])->name('rentangusia.index');
-Route::get('/rentang-usia/{slug}', [KecamatanController::class, 'showRentangUsiaDetail'])->name('rentangusia.show');
 
-
-
+// Jenis Kelamin, Rentang Usia, Status Usaha
 Route::get('/jenis-kelamin', [JenisKelaminController::class, 'index'])->name('jenis-kelamin');
 Route::get('/jenis-kelamin/{slug}', [JenisKelaminController::class, 'show'])->name('detail_kelamin');
-
-
+Route::get('/rentang-usia', [KecamatanController::class, 'rentangUsia'])->name('rentangusia.index');
+Route::get('/rentang-usia/{slug}', [KecamatanController::class, 'showRentangUsiaDetail'])->name('rentangusia.show');
 Route::get('/status-usaha', [StatusUsahaController::class, 'index'])->name('status-usaha.index');

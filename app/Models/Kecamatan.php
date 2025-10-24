@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Desa;
-use App\Models\Usaha;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Kecamatan extends Model
 {
-    protected $fillable = ['nama'];
+    use HasFactory;
+
+    protected $fillable = ['kode', 'nama_kecamatan', 'kode_pos'];
 
     public function desas()
     {
@@ -20,4 +21,3 @@ class Kecamatan extends Model
         return $this->hasMany(Usaha::class);
     }
 }
-

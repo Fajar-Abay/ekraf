@@ -21,8 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Buat user contoh
         User::factory()->create([
             'name' => 'ekraf',
             'email' => 'ekraf@sumedang.com',
@@ -39,5 +38,8 @@ class DatabaseSeeder extends Seeder
             SubsektorSeeder::class,
             ArtikelSeeder::class
         ]);
+
+        // Jalankan seeder wilayah
+        $this->call(WilayahSeeder::class);
     }
 }

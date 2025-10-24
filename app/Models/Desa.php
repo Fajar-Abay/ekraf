@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Desa extends Model
 {
-    protected $fillable = ['kecamatan_id', 'nama', "kode_pos"];
+    use HasFactory;
+
+    protected $fillable = ['kode', 'kecamatan_id', 'nama_kelurahan', 'kode_pos'];
 
     public function kecamatan()
     {
