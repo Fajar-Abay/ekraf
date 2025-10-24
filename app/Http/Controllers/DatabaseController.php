@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Log;
 
 class DatabaseController extends Controller
 {
+    public function index()
+    {
+        return view('database');
+    }
+
     public function statistik($kode)
     {
         // Coba cari kecamatan berdasarkan kd_kecamatan
