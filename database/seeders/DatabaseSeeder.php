@@ -38,8 +38,5 @@ class DatabaseSeeder extends Seeder
             SubsektorSeeder::class,
             ArtikelSeeder::class
         ]);
-
-        // Jalankan seeder wilayah
-        $this->call(WilayahSeeder::class);
     }
 }

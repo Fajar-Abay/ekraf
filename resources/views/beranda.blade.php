@@ -6,14 +6,20 @@
 <div x-data="{ active: 0 }" class="relative w-full overflow-hidden">
     @foreach ($sliders as $index => $slide)
         <div x-show="active === {{ $index }}"
-             x-transition
-             class="h-[80vh] bg-cover bg-center flex items-center justify-center text-white text-4xl font-bold"
-             style="background-image: url('{{ asset('storage/'.$slide->gambar) }}')">
-            <div class="bg-black/50 p-6 rounded-xl text-center">
+        x-transition
+            class="relative h-[80vh] bg-cover bg-center flex items-center justify-center text-white text-4xl font-bold"
+            style="background-image: url('{{ asset('storage/'.$slide->gambar) }}')">
+
+            <!-- Overlay hitam transparan -->
+            <div class="absolute inset-0 bg-black/40"></div>
+
+            <!-- Konten -->
+            <div class="relative z-10 p-6 rounded-xl text-center">
                 <h1 class="text-3xl md:text-5xl font-extrabold">{{ $slide->judul }}</h1>
                 <p class="text-lg mt-2">{{ $slide->deskripsi }}</p>
             </div>
         </div>
+
     @endforeach
 
     <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
@@ -58,7 +64,12 @@
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
         @foreach ($artikels as $artikel)
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
-            <img src="{{ asset('storage/'.$artikel->gambar) }}" alt="{{ $artikel->judul }}" class="w-full h-48 object-cover">
+            <img 
+                src="{{ $artikel->gambar ? asset('storage/'.$artikel->gambar) : asset('image/bg.jpg') }}" 
+                alt="{{ $artikel->judul }}" 
+                class="w-full h-48 object-cover"
+            />
+
             <div class="p-5 text-left">
                 <h3 class="text-[#073B4C] font-bold text-lg mb-2">{{ $artikel->judul }}</h3>
                 <p class="text-gray-600 text-sm mb-2 line-clamp-3">{{ Str::limit(strip_tags($artikel->isi), 120) }}</p>

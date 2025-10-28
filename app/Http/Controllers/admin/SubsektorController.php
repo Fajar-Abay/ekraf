@@ -1,10 +1,11 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+
 use App\Models\Usaha;
 use App\Models\Subsektor;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class SubsektorController extends Controller
 {

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\Slider;
@@ -34,7 +35,7 @@ class SliderController extends Controller
             'gambar' => $path,
         ]);
 
-        return redirect()->route('slider.index')->with('success', 'Slider berhasil ditambahkan.');
+        return redirect()->route('admin.slider.index')->with('success', 'Slider berhasil ditambahkan.');
     }
 
     public function destroy(Slider $slider)

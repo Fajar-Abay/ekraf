@@ -18,32 +18,33 @@
 ">
     <div class="absolute inset-0 bg-white/50"></div>
     <h1 class="relative z-10 text-3xl md:text-5xl font-bold">Hubungi Kami</h1>
-</section>
+        </section>
 
-<section class="bg-white py-12">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center px-4">
+        <section class="bg-white py-12">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center px-4">
 
-        <div class="bg-[#7598A3] text-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all">
+            <div class="bg-[#7598A3] text-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all">
             <i class="fa-solid fa-location-dot text-4xl mb-4"></i>
-            <p class="font-semibold text-[#062B37]">Dinas Pariwisata, Kebudayaan, Kepemudaan, dan Olahraga</p>
-            <p class="text-sm mt-2">Jl. Prabu Geusan Ulun No. 36, Regol Wetan, Sumedang Selatan</p>
+            <p class="font-semibold text-[#062B37]">Alamat</p>
+            <p class="text-sm mt-2">{{ $kontak->alamat ?? '-' }}</p>
         </div>
 
         <div class="bg-[#7598A3] text-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all">
             <i class="fa-solid fa-envelope text-4xl mb-4"></i>
             <p class="font-semibold text-[#062B37]">Email</p>
-            <p class="text-sm mt-2">disparbudporasumedang@gmail.com</p>
+            <p class="text-sm mt-2">{{ $kontak->email ?? '-' }}</p>
         </div>
 
         <div class="bg-[#7598A3] text-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all">
             <i class="fa-solid fa-phone text-4xl mb-4"></i>
-            <p class="font-semibold text-[#062B37]">Mobile</p>
+            <p class="font-semibold text-[#062B37]">Telepon</p>
             <p class="text-sm mt-2">
-                (0813-2601-9291)<br>
-                (0852-2026-9101)<br>
-                (0855-7719-0513)
+                {{ $kontak->telepon1 ?? '-' }}<br>
+                {{ $kontak->telepon2 ?? '' }}<br>
+                {{ $kontak->telepon3 ?? '' }}
             </p>
         </div>
+
 
     </div>
 </section>

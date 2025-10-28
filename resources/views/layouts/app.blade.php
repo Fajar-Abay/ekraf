@@ -105,12 +105,8 @@
 
                     <li><a href="tentang" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Tentang</a></li>
                     <li><a href="#" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Artikel</a></li>
-                    <li><a href="#" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Subsektor</a></li>
-                    <li><a href="kontak" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Kontak</a></li>
-                    <li><a href="{{ route('user.tentang') }}" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Tentang</a></li>
-                    <li><a href="#" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Artikel</a></li>
-                    <li><a href="{{ route('user.sektor') }}" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Subsektor</a></li>
-                    <li><a href="{{ route('user.sektor') }}" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Kontak</a></li>
+                    <li><a href="/user/sektor" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Subsektor</a></li>
+                    <li><a href="/kontak" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Kontak</a></li>
 
                     <!-- Dropdown Pendataan -->
                     <li class="relative pb-1">

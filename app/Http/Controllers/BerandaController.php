@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usaha;
+use App\Models\Kontak;
 use App\Models\Slider;
 use App\Models\Artikel;
-use App\Models\Usaha;
+use App\Models\Subsektor;
 use Illuminate\Http\Request;
 
 class BerandaController extends Controller
@@ -51,5 +53,17 @@ class BerandaController extends Controller
             'usia_data',
             'rataUsia'
         ));
+    }
+
+        public function kontak()
+    {
+        $kontak = Kontak::first(); // ambil 1 data saja
+        return view('kontak', compact('kontak'));
+    }
+
+    public function subsektor()
+    {
+        $subsektor = Subsektor::all(); // ambil semua data
+        return view('user.sektor', compact('subsektor'));
     }
 }

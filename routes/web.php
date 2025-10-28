@@ -4,21 +4,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DesaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\KontakController;
+use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\TentangController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\KecamatanController;
-use App\Http\Controllers\Admin\UsahaController;
+use App\Http\Controllers\admin\UsahaController;
 use App\Http\Controllers\StatusUsahaController;
-use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\admin\SliderController;
 use App\Http\Controllers\JenisKelaminController;
-use App\Http\Controllers\Admin\ArtikelController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\SubsektorController;
+use App\Http\Controllers\admin\ArtikelController;
+use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\admin\SubsektorController;
 use App\Http\Controllers\Petugas\ArtikelController as PetugasArtikelController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LokasiController;
 
 // =====================
 // 🔐 AUTH ROUTES
@@ -85,9 +85,8 @@ Route::middleware(['auth'])
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/', fn() => view('user.beranda'))->name('beranda');
     Route::get('/tentang', [UserController::class, 'tentang'])->name('tentang');
-    Route::get('/sektor', [UserController::class, 'sektor'])->name('sektor');
+    Route::get('/sektor', [BerandaController::class, 'subsektor'])->name('sektor');
     Route::get('/pendataan', [UserController::class, 'pendataan'])->name('pendataan');
-    Route::get('/kontak', [UserController::class, 'kontak'])->name('kontak');
 });
 
 // =====================
@@ -103,7 +102,7 @@ Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
 Route::get('/database', [DatabaseController::class, 'index'])->name('database');
 
 // Kontak
-Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
+Route::get('/kontak', [BerandaController::class, 'kontak'])->name('kontak');
 Route::post('/kontak/kirim', [KontakController::class, 'kirim'])->name('kontak.kirim');
 
 // Kecamatan & Desa
