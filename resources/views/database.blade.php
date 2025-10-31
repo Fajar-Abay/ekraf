@@ -1,124 +1,209 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda - Ekonomi Kreatif Sumedang')
-
+@section('title', 'Database')
 @section('content')
+<div class="p-6">
+    <h1 class="text-2xl font-bold text-[#004b5c] mb-4">
+        Database Ekraf Di Sumedang
+    </h1>
 
-    <section style="
-        background: url('{{ asset('images/sumedang_gate.jpeg') }}') center/cover no-repeat;
-        height: 70vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #073B4C;
-        text-shadow: 1px 1px 5px rgba(255,255,255,0.6);
-        font-size: 2.5rem;
-        font-weight: 700;
-        position: relative;
-    ">
-        <div class="absolute inset-0 bg-white/50"></div>
-        <div class="relative z-10 p-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-center leading-tight">
-                Database <br> Ekonomi Kreatif <br> Sumedang
-            </h1>
-        </div>
-    </section>
+    {{-- Peta utama --}}
+    <div id="map-container"
+        class="relative bg-gray-50 w-full h-[700px] rounded-xl shadow-lg overflow-hidden">
+    </div>
 
-    <main class="container mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold text-center mb-10 text-gray-800">Data Wilayah dan Potensi Kreatif</h2>
-        
-        <div class="flex flex-col items-center">
+    {{-- Card info detail --}}
+    <div id="info-card"
+        class="hidden mt-6 bg-white p-6 rounded-2xl shadow-md border border-gray-200 transition-all duration-500 transform opacity-0 scale-95">
+        <div id="mini-map" class="w-full h-[200px] mb-4 flex items-center justify-center"></div>
+        <h2 id="nama-kecamatan" class="text-xl font-bold text-[#004b5c] mb-1"></h2>
+        <p id="lokasi" class="text-sm text-gray-500 mb-3"></p>
 
-            <div class="w-full max-w-lg mb-8">
-                <div id="sumedang-map-container" class="w-full rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-                    <div class="w-full h-80 bg-gray-100 flex items-center justify-center text-gray-500 font-bold border-b-4 border-teal-600 text-center p-4">
-                        [Placeholder: Peta Interaktif Kabupaten Sumedang]
-                        <br>
-                        Klik salah satu wilayah untuk memuat data kecamatan.
-                    </div>
-                </div>
-            </div>
-            
-            {{-- TOMBOL FILTER UTAMA (Kecamatan) --}}
-            <a href="{{ route('kecamatan.index') }}" 
-                class="w-full max-w-lg bg-[#B1BFC3] hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-full text-lg font-semibold mb-6 shadow-xl hover:shadow-2xl transition duration-300 flex items-center">
-                
-                {{-- ICON ALAMAT (Font Awesome) --}}
-                <i class="fa-solid fa-location-dot h-6 w-6 mr-3 text-gray-900"></i>
-                
-                Kecamatan
-            </a>
+        <ul class="text-sm text-gray-700 space-y-1">
+            <li>• Jumlah Usaha: <span id="usaha" class="font-semibold">—</span></li>
+            <li>• Rata-rata Pendapatan: <span id="rataPendapatan" class="font-semibold">—</span></li>
+            <li>• Rata-rata Tenaga Kerja: <span id="rataTenagaKerja" class="font-semibold">—</span></li>
+        </ul>
+        <a href=""
+        class="text-blue-600 hover:underline">Detail</a>
+    </div>
+</div>
 
-            {{-- Card Data Kecamatan (Data Kosong) --}}
-            <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden p-6 border border-gray-100 mb-8">
-                <div class="mb-6">
-                    {{-- Peta Kecamatan (Placeholder Kosong) --}}
-                    <div class="w-full h-48 bg-gray-200 rounded-xl flex items-center justify-center text-gray-500 font-semibold border border-gray-300">
-                        [Placeholder Peta Kecamatan]
-                    </div>
-                </div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
-                <div class="text-center mb-4">
-                    <h3 class="text-3xl font-extrabold text-[#062B37]">Nama Kecamatan</h3>
-                </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const width = document.getElementById('map-container').clientWidth;
+  const height = 700;
 
-                {{-- Detail Statistik (Data Kosong) --}}
-                <div class="space-y-3 text-lg">
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="font-medium text-gray-600">• Jumlah Desa:</span>
-                        <span class="font-bold text-teal-900">-</span>
-                    </div>
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="font-medium text-gray-600">• Luas Wilayah:</span>
-                        <span class="font-bold text-teal-900">- KM2</span>
-                    </div>
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="font-medium text-gray-600">• Jumlah Penduduk:</span>
-                        <span class="font-bold text-teal-900">- orang</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="font-medium text-gray-600">• Kepadatan Penduduk:</span>
-                        <span class="font-bold text-teal-900">- orang/ KM2</span>
-                    </div>
-                </div>
+  const svg = d3.select('#map-container')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('class', 'bg-gray-50');
 
-                <p class="text-xs text-gray-400 mt-4 text-center">
-                    Sumber: [Placeholder Sumber Data]
-                </p>
+  const projection = d3.geoMercator()
+    .scale(52000)
+    .center([107.95, -6.85])
+    .translate([width / 2, height / 2]);
 
-                {{-- Tombol Detail - Shadow-xl --}}
-                <div class="mt-6 text-center">
-                    <a href="#" class="inline-block bg-[#073B4C] hover:bg-teal-800 text-white font-bold py-3 px-10 rounded-full transition duration-300 shadow-xl hover:shadow-2xl">
-                        Lihat Detail
-                    </a>
-                </div>
-            </div>
-            
-            {{-- Bagian Tombol Filter/Kategori Tambahan --}}
-            <div class="w-full max-w-lg mt-4 space-y-3">
-                @php
-                    $filters = [
-                        'Desa' => 'desa', 
-                        'Subsektor' => '#', 
-                        'Rentang Usia' => 'rentangusia.index', 
-                        'Jenis Kelamin' => 'jenis-kelamin', 
-                        'Status Usaha' => 'status-usaha.index',
-                    ];
-                @endphp
-                
-                @foreach($filters as $filter_name => $route_name)
-                <a href="{{ $route_name != '#' ? route($route_name) : '#' }}" 
-                    class="w-full bg-[#B1BFC3] hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-full text-lg font-semibold transition duration-200 shadow-lg hover:shadow-xl flex items-center">
-                    
-                    {{-- ICON ALAMAT (Font Awesome) --}}
-                    <i class="fa-solid fa-location-dot h-5 w-5 mr-3 text-gray-900"></i>
-                    
-                    {{ $filter_name }}
-                </a>
-                @endforeach
-            </div>
+  const path = d3.geoPath().projection(projection);
+  const colors = d3.scaleOrdinal(d3.schemeSet3);
 
-        </div>
-    </main>
+  d3.json('{{ asset("maps/32.11_kecamatan.geojson") }}').then(data => {
+    const groups = svg.selectAll('g')
+      .data(data.features)
+      .enter()
+      .append('g')
+      .attr('class', 'kecamatan-group');
 
+    // 🌍 Wilayah kecamatan
+    groups.append('path')
+      .attr('d', path)
+      .attr('fill', (d, i) => colors(i))
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 1)
+      .style('cursor', 'pointer')
+      .style('transition', 'all 0.3s ease');
+
+    // 🏷️ Label nama kecamatan
+    groups.append('text')
+      .attr('x', d => path.centroid(d)[0])
+      .attr('y', d => path.centroid(d)[1])
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .attr('font-size', '7px')
+      .attr('font-weight', '600')
+      .attr('fill', '#222')
+      .text(d => d.properties.nm_kecamatan || '');
+
+    // 🔹 Efek hover
+    groups
+      .on('mouseover', function (event, d) {
+        const group = d3.select(this);
+        if (!d.active) {
+          group.raise();
+          group.select('path')
+            .transition().duration(200)
+            .attr('transform', 'scale(1.03)')
+            .style('filter', 'drop-shadow(0 0 8px rgba(0,0,0,0.3))');
+          group.select('text')
+            .raise()
+            .transition().duration(200)
+            .attr('font-size', '9px')
+            .attr('fill', '#004b5c');
+        }
+      })
+      .on('mouseout', function (event, d) {
+        const group = d3.select(this);
+        if (!d.active) {
+          group.select('path')
+            .transition().duration(200)
+            .attr('transform', 'scale(1)')
+            .style('filter', 'none');
+          group.select('text')
+            .transition().duration(200)
+            .attr('font-size', '7px')
+            .attr('fill', '#222');
+        }
+      })
+      .on('click', async function (event, d) {
+        // Reset semua
+        svg.selectAll('g').each(function (f, i) {
+          f.active = false;
+          d3.select(this).select('path')
+            .attr('transform', 'scale(1)')
+            .style('filter', 'none')
+            .attr('fill', colors(i))
+            .attr('stroke', '#fff')
+            .attr('stroke-width', 1);
+          d3.select(this).select('text')
+            .attr('fill', '#222')
+            .attr('font-size', '7px');
+        });
+
+        // Aktifkan yang diklik
+        d.active = true;
+        const group = d3.select(this);
+        group.raise();
+        group.select('path')
+          .transition().duration(300)
+          .attr('fill', '#4D96FF')
+          .attr('stroke', '#004b5c')
+          .attr('stroke-width', 2)
+          .style('filter', 'drop-shadow(0 0 10px rgba(0,0,0,0.5))');
+
+        group.select('text')
+          .raise()
+          .transition().duration(300)
+          .attr('fill', '#004b5c')
+          .attr('font-size', '9px');
+
+        const nama = d.properties.nm_kecamatan || 'Tanpa Nama';
+        const kdKecamatan = d.properties.kd_kecamatan;
+
+        let usaha = '—', rataPendapatan = '—', rataTenaga = '—';
+
+       try {
+            const url = `kecamatan/${kdKecamatan}/statistik`;
+            console.log('🔍 Fetching:', url);
+            const res = await fetch(url);
+
+            if (res.ok) {
+                const json = await res.json();
+                console.table(json);
+                usaha = json.jumlah_usaha ?? '—';
+                rataPendapatan = json.rata_pendapatan
+                ? `Rp${json.rata_pendapatan.toLocaleString('id-ID')}`
+                : '—';
+                rataTenaga = json.rata_tenaga_kerja ?? '—';
+                const detailLink = document.querySelector('#info-card a');
+                if (detailLink) {
+                 detailLink.href = `/admin/kecamatan/${kdKecamatan}/detail`;
+                }
+            } else {
+                console.warn('⚠️ Gagal ambil data:', res.status, res.statusText);
+            }
+            } catch (err) {
+            console.error('❌ Error fetch:', err);
+            }
+
+        // 📊 Tampilkan card
+        const infoCard = document.getElementById('info-card');
+        infoCard.classList.remove('hidden');
+        infoCard.style.opacity = 0;
+        infoCard.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          infoCard.style.transition = 'all 0.4s ease';
+          infoCard.style.opacity = 1;
+          infoCard.style.transform = 'scale(1)';
+        }, 50);
+
+        document.getElementById('nama-kecamatan').textContent = nama;
+        document.getElementById('lokasi').textContent = `Lokasi: ${nama}, Kabupaten Sumedang`;
+        document.getElementById('usaha').textContent = usaha;
+        document.getElementById('rataPendapatan').textContent = rataPendapatan;
+        document.getElementById('rataTenagaKerja').textContent = rataTenaga;
+
+        // 🗺️ Mini Map
+        const mini = d3.select('#mini-map');
+        mini.selectAll('*').remove();
+        const miniSvg = mini.append('svg')
+          .attr('width', 220)
+          .attr('height', 220)
+          .attr('viewBox', '0 0 220 220');
+
+        const miniProjection = d3.geoMercator().fitSize([220, 220], d);
+        const miniPath = d3.geoPath().projection(miniProjection);
+
+        miniSvg.append('path')
+          .datum(d)
+          .attr('d', miniPath)
+          .attr('fill', '#4D96FF')
+          .attr('stroke', '#fff')
+          .attr('stroke-width', 1);
+      });
+  });
+});
+</script>
 @endsection

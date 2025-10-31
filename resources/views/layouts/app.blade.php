@@ -104,7 +104,7 @@
                     </li>
 
                     <li><a href="tentang" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Tentang</a></li>
-                    <li><a href="#" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Artikel</a></li>
+                    <li><a href="{{ route('user.artikel') }}" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Artikel</a></li>
                     <li><a href="/user/sektor" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Subsektor</a></li>
                     <li><a href="/kontak" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Kontak</a></li>
 
@@ -122,7 +122,7 @@
                         </button>
                         <ul id="dropdownMenu" class="hidden bg-white text-gray-700 mt-2 rounded-md shadow-md w-40 z-10 absolute">
 
-                            <li><a href="#" class="block px-4 py-2 hover:bg-yellow-100">Database</a></li>
+                            <li><a href="{{ route('user.database') }}" class="block px-4 py-2 hover:bg-yellow-100">Database</a></li>
                             <li><a href="{{ route('user.pendataan') }}" class="block px-4 py-2 hover:bg-yellow-100">Pendaftaran</a></li>
                         </ul>
                     </li>
@@ -140,72 +140,59 @@
         @yield('content')
     </main>
     <!-- ===== FOOTER ===== -->
-    <footer class="relative py-30 mt-0 overflow-hidden"
-        style="
-            background: url('{{ asset('images/bg.jpg') }}') center/cover no-repeat;
-            background-attachment: fixed;
-        ">
+    <footer class="relative py-16 overflow-hidden bg-gradient-to-r from-[#073B4C] to-[#0A4D68] text-white">
 
-        <!-- Overlay putih transparan -->
-        <div class="absolute inset-0 bg-white/40"></div>
+        <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
 
-        <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-20 lg:pl-24 lg:pr-48 grid grid-cols-1 md:grid-cols-2 gap-10 items-start text-[#073B4C] text-center md:text-left">
-
-            <!-- Kolom Kiri -->
-            <div>
-                <h2 class="text-2xl md:text-2xl font-bold mb-2">Ekonomi Kreatif Sumedang</h2>
-                <p class="font-medium mb-4">
-                    Dinas Pariwisata, Kebudayaan, Kepemudaan, dan Olahraga Sumedang
-                </p>
+            <!-- Kolom Kiri: Kontak -->
+            <div class=" p-6 rounded-2xl">
+                <h2 class="text-2xl font-bold mb-3">Ekonomi Kreatif Sumedang</h2>
+                <p class="font-medium mb-4">Dinas Pariwisata, Kebudayaan, Kepemudaan, dan Olahraga Sumedang</p>
 
                 <ul class="space-y-3 text-sm md:text-base">
-                    <li class="flex justify-center md:justify-start items-start gap-3">
-                        <i class="fa-solid fa-location-dot text-[#073B4C] mt-1"></i>
-                        <span><strong>Alamat:</strong> Jl. Prabu Geusan Ulun No.36, Regol Wetan, Sumedang Selatan, Kabupaten Sumedang, Jawa Barat</span>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-location-dot text-yellow-400 mt-1"></i>
+                        <span><strong>Alamat:</strong> {{ $kontak->alamat ?? '-' }}</span>
                     </li>
-                    <li class="flex justify-center md:justify-start items-start gap-3">
-                        <i class="fa-solid fa-globe text-[#073B4C] mt-1"></i>
-                        <span><strong>Website:</strong> disparbudpora.sumedangkab.go.id</span>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-envelope text-yellow-400 mt-1"></i>
+                        <span><strong>Email:</strong> {{ $kontak->email ?? '-' }}</span>
                     </li>
-                    <li class="flex justify-center md:justify-start items-start gap-3">
-                        <i class="fa-solid fa-envelope text-[#073B4C] mt-1"></i>
-                        <span><strong>Email:</strong> disparbudporasumedang@gmail.com</span>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-phone text-yellow-400 mt-1"></i>
+                        <span>
+                            {{ $kontak->telepon1 ?? '-' }}<br>
+                            {{ $kontak->telepon2 ?? '' }}<br>
+                            {{ $kontak->telepon3 ?? '' }}
+                        </span>
                     </li>
                 </ul>
             </div>
 
-            <!-- Kolom Kanan (Menu) -->
-            <div class="md:pl-26 lg:pl-70">
-                <h3 class="text-xl font-semibold mb-4 text-center md:text-left">Menu</h3>
+            <!-- Kolom Kanan: Menu -->
+            <div class="p-6 rounded-2xl ">
+                <h3 class="text-xl font-semibold mb-4">Menu</h3>
                 <ul class="space-y-2 text-sm md:text-base">
-                    <li><a href="beranda" class="hover:text-[#FFD166] transition">Beranda</a></li>
-                    <li><a href="tentang" class="hover:text-[#FFD166] transition">Tentang</a></li>
-                    <li><a href="#" class="hover:text-[#FFD166] transition">Artikel</a></li>
-                    <li><a href="#" class="hover:text-[#FFD166] transition">Subsektor</a></li>
-                    <li><a href="kontak" class="hover:text-[#FFD166] transition">Kontak</a></li>
-                    <li><a href="#" class="hover:text-[#FFD166] transition">Database</a></li>
-                    <li><a href="pendataan" class="hover:text-[#FFD166] transition">Pendaftaran</a></li>
+                    <li><a href="beranda" class="hover:text-yellow-400 transition">Beranda</a></li>
+                    <li><a href="tentang" class="hover:text-yellow-400 transition">Tentang</a></li>
+                    <li><a href="#" class="hover:text-yellow-400 transition">Artikel</a></li>
+                    <li><a href="#" class="hover:text-yellow-400 transition">Subsektor</a></li>
+                    <li><a href="kontak" class="hover:text-yellow-400 transition">Kontak</a></li>
                 </ul>
             </div>
+
         </div>
 
-        <!-- ===== SOSIAL MEDIA ===== -->
-    <div class="relative z-10 mt-20 flex justify-center space-x-6">
-        <a href="https://facebook.com" target="_blank" class="text-[#073B4C] hover:text-[#1877F2] transition text-2xl">
-            <i class="fab fa-facebook"></i>
-        </a>
-        <a href="https://instagram.com" target="_blank" class="text-[#073B4C] hover:text-[#E1306C] transition text-2xl">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://x.com" target="_blank" class="text-[#073B4C] hover:text-black transition text-2xl">
-            <i class="fab fa-x-twitter"></i>
-        </a>
-        <a href="https://linkedin.com" target="_blank" class="text-[#073B4C] hover:text-[#0077B5] transition text-2xl">
-            <i class="fab fa-linkedin"></i>
-        </a>
-    </div>
+        <!-- Sosial Media -->
+        <div class="relative z-10 mt-12 flex justify-center space-x-6">
+            <a href="https://facebook.com" target="_blank" class="text-white hover:text-blue-500 transition text-2xl"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank" class="text-white hover:text-pink-500 transition text-2xl"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com" target="_blank" class="text-white hover:text-black transition text-2xl"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="text-white hover:text-blue-700 transition text-2xl"><i class="fab fa-linkedin"></i></a>
+        </div>
 
     </footer>
+
 
 
     <!-- ===== SCRIPT ===== -->

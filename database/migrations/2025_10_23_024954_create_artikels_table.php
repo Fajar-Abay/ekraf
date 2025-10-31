@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->string('penulis');
-            $table->string('kategori');
             $table->string('gambar')->nullable();
             $table->text('isi');
-            $table->string('sumber')->nullable();
             $table->timestamps();
         });
     }

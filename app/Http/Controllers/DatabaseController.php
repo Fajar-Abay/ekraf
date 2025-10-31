@@ -15,6 +15,11 @@ class DatabaseController extends Controller
         return view('database');
     }
 
+    public function databse()
+    {
+        return view('database');
+    }
+
     public function statistik($kode)
     {
         // Coba cari kecamatan berdasarkan kd_kecamatan

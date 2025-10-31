@@ -56,10 +56,8 @@ class ArtikelSeeder extends Seeder
             DB::table('artikels')->insert([
                 'judul' => $artikel['judul'],
                 'penulis' => $artikel['penulis'],
-                'kategori' => $artikel['kategori'],
                 'gambar' => null,
                 'isi' => $artikel['isi'],
-                'sumber' => $artikel['sumber'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

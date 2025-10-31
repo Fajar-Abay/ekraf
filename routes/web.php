@@ -5,6 +5,7 @@ use App\Http\Controllers\MapController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DesaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\BerandaController;
@@ -87,6 +88,9 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/tentang', [UserController::class, 'tentang'])->name('tentang');
     Route::get('/sektor', [BerandaController::class, 'subsektor'])->name('sektor');
     Route::get('/pendataan', [UserController::class, 'pendataan'])->name('pendataan');
+    Route::get("/artikel", [BeritaController::class, "index"])->name("artikel");
+    Route::get('/database', [DatabaseController::class, 'index'])->name('database');
+
 });
 
 // =====================
@@ -99,7 +103,6 @@ Route::get('/get-desa/{kecamatan_id}', [DesaController::class, 'getByKecamatan']
 // =====================
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
-Route::get('/database', [DatabaseController::class, 'index'])->name('database');
 
 // Kontak
 Route::get('/kontak', [BerandaController::class, 'kontak'])->name('kontak');
@@ -116,3 +119,5 @@ Route::get('/jenis-kelamin/{slug}', [JenisKelaminController::class, 'show'])->na
 Route::get('/rentang-usia', [KecamatanController::class, 'rentangUsia'])->name('rentangusia.index');
 Route::get('/rentang-usia/{slug}', [KecamatanController::class, 'showRentangUsiaDetail'])->name('rentangusia.show');
 Route::get('/status-usaha', [StatusUsahaController::class, 'index'])->name('status-usaha.index');
+
+Route::post('/pendataan/store', [UserController::class, 'storePendataan'])->name('pendataan.store');
