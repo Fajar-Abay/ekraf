@@ -11,6 +11,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @stack("styles")
     <style>
         /* Animasi rotasi ikon dropdown */
         .rotate-icon {
@@ -57,17 +58,14 @@
 <body class="font-[Poppins] bg-gray-50">
 
     <!-- ===== NAVBAR ===== -->
-    <nav id="navbar" class="navbar fixed top-0 w-full z-50 py-3 shadow-md">
-        <div class="container mx-auto px-4 flex flex-wrap items-center justify-between">
+    <nav id="navbar" class="navbar fixed top-0 w-full z-50 shadow-md bg-[#073B4C] transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 my-4 flex items-center justify-between h-[72px]">
 
             <!-- Logo & Judul -->
-
-            <a href="{{ url('/') }}" class="flex items-center space-x-4">
+            <a href="{{ url('/') }}" class="flex items-center space-x-3">
                 <div class="flex flex-col items-center text-white text-center">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-11 h-auto mb-1">
-
-                    <!-- Teks kecil di bawah logo, lebih kecil dan rapih -->
-                    <span class="text-[5px] sm:text-[5px] font-medium leading-tight mt-0 text-white/80">
+                    <span class="text-[6px] font-medium leading-tight text-white/80">
                         DESAIN PARIWISATA, KEBUDAYAAN<br>
                         KEPEMUDAAN, DAN OLAHRAGA<br>
                         S U M E D A N G
@@ -75,53 +73,52 @@
                 </div>
 
                 <div class="leading-tight text-left">
-                    <h1 class="text-white font-extrabold text-xl sm:text-xl">
+                    <h1 class="text-white font-extrabold text-sm sm:text-lg leading-tight">
                         EKONOMI KREATIF<br>S U M E D A N G
                     </h1>
+
                 </div>
             </a>
 
             <!-- Tombol Menu Mobile -->
-            <button class="lg:hidden text-white focus:outline-none" id="menuBtn">
+            <button id="menuBtn" class="lg:hidden text-white focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                     d="M4 6h16M4 12h16M4 18h16" />
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
             <!-- Menu Navigasi -->
-            <div id="menuNav" class="hidden w-full lg:flex lg:w-auto lg:items-center">
-                <ul class="flex flex-col lg:flex-row lg:space-x-6 text-white text-sm font-medium mt-3 lg:mt-0">
+            <div id="menuNav"
+                class="hidden absolute top-[72px] left-0 w-full bg-[#073B4C] lg:static lg:flex lg:w-auto lg:bg-transparent transition-all duration-300">
+                <ul class="flex flex-col lg:flex-row lg:space-x-6 text-white text-sm font-medium p-4 lg:p-0">
 
-                    <li>
-                        <a href="{{ url('/') }}"
-                           class="pb-1 {{ request()->is('/')
-                               ? 'text-yellow-400 underline decoration-yellow-400 decoration-2 underline-offset-4'
-                               : 'hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4' }}">
+                    <li><a href="{{ url('/') }}"
+                        class="{{ request()->is('/')
+                                ? 'text-yellow-400 underline decoration-yellow-400 decoration-2 underline-offset-4'
+                                : 'hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4' }}">
                             Beranda
-                        </a>
-                    </li>
+                        </a></li>
 
-                    <li><a href="tentang" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Tentang</a></li>
-                    <li><a href="{{ route('user.artikel') }}" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Artikel</a></li>
-                    <li><a href="/user/sektor" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Subsektor</a></li>
-                    <li><a href="/kontak" class="pb-1 hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Kontak</a></li>
+                    <li><a href="/tentang" class="hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Tentang</a></li>
+                    <li><a href="{{ route('user.artikel') }}" class="hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Artikel</a></li>
+                    <li><a href="/user/sektor" class="hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Subsektor</a></li>
+                    <li><a href="/kontak" class="hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4">Kontak</a></li>
 
-                    <!-- Dropdown Pendataan -->
-                    <li class="relative pb-1">
-                        <button id="dropdownBtn"
-                            class="flex items-center space-x-1 text-white hover:text-yellow-400 hover:underline decoration-yellow-400 decoration-2 underline-offset-4 focus:outline-none">
+                    <!-- Dropdown -->
+                    <li class="relative">
+                        <button id="dropdownBtn" class="flex items-center space-x-1 hover:text-yellow-400 focus:outline-none">
                             <span>Pendataan</span>
                             <svg id="dropdownIcon" xmlns="http://www.w3.org/2000/svg"
-                                 class="h-4 w-4 mt-0.5 rotate-icon" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                 d="M19 9l-7 7-7-7" />
+                                class="h-4 w-4 mt-0.5 rotate-icon transition-transform duration-300"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <ul id="dropdownMenu" class="hidden bg-white text-gray-700 mt-2 rounded-md shadow-md w-40 z-10 absolute">
-
+                        <ul id="dropdownMenu"
+                            class="hidden absolute bg-white text-gray-700 mt-2 rounded-md shadow-md w-40 z-10">
                             <li><a href="{{ route('user.database') }}" class="block px-4 py-2 hover:bg-yellow-100">Database</a></li>
                             <li><a href="{{ route('user.pendataan') }}" class="block px-4 py-2 hover:bg-yellow-100">Pendaftaran</a></li>
                         </ul>
@@ -132,11 +129,12 @@
         </div>
     </nav>
 
+
     <!-- Spacer agar konten tidak tertutup navbar -->
     <div class="h-20"></div>
 
     <!-- ===== KONTEN HALAMAN ===== -->
-    <main class="min-h-screen">
+    <main class="">
         @yield('content')
     </main>
     <!-- ===== FOOTER ===== -->
@@ -222,5 +220,6 @@
             }
         });
     </script>
+    @stack("scripts")
 </body>
 </html>

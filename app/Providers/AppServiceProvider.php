@@ -22,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $kontak = Kontak::first(); // ambil kontak pertama
-        View::share('kontak', $kontak); 
+        View::share('kontak', $kontak);
     }
 }

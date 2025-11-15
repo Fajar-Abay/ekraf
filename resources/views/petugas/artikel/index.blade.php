@@ -32,7 +32,7 @@
         @forelse($artikels as $artikel)
             <a href="{{ route('petugas.artikel.show', $artikel->id) }}"
                class="bg-white rounded-2xl overflow-hidden shadow hover:-translate-y-2 transition-transform duration-300">
-                <img src="{{ $artikel->gambar ? asset('storage/artikel/' . $artikel->gambar) : asset('images/bg.jpg') }}"
+                <img src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/bg.jpg') }}"
                      class="w-full h-48 object-cover" alt="{{ $artikel->judul }}">
                 <div class="p-4">
                     <h3 class="font-bold text-lg text-[#003846] mb-2">{{ $artikel->judul }}</h3>

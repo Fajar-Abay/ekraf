@@ -32,7 +32,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-12 justify-center">
             @foreach ($subsektor as $index => $item)
                 <a href="{{ url('sektor/detail/' . Str::slug($item->nama)) }}"
-                class="relative flex items-center justify-center w-48 h-48 mx-auto rounded-full 
+                class="relative flex items-center justify-center w-48 h-48 mx-auto rounded-full
                         bg-[#F9FAFB] border-4 border-[#073B4C] shadow-md overflow-hidden
                         hover:bg-[#073B4C] hover:scale-110 hover:shadow-xl
                         transition-all duration-500 ease-out group animate-fade-up"

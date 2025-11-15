@@ -13,7 +13,7 @@ class Usaha extends Model
         'nama_lengkap', 'nik', 'no_telepon', 'tanggal_lahir', 'email', 'jenis_kelamin',
         'merk_usaha', 'akun_sosial_media', 'jenis_usaha', 'url_website', 'status_usaha',
         'url_ecommerce', 'jumlah_tenaga_kerja', 'deskripsi_kegiatan', 'lingkup_pemasaran',
-        'asal_bahan', 'pendapatan_per_bulan', 'sub_sektor_id', 'kecamatan_id', 'desa_id',
+        'asal_bahan', 'pendapatan_per_bulan', 'subsektor_id', 'kecamatan_id', 'desa_id',
         'alamat_lengkap', 'kode_pos'
     ];
 

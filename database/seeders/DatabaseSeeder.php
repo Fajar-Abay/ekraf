@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             "role" => "admin"
         ]);
 
+
+
         $this->call([
             KecamatanSeeder::class, // Isi tabel parent dulu
             DesaSeeder::class,

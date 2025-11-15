@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-
 use Illuminate\Http\Request;
 use App\Models\Usaha;
 use App\Models\Kecamatan;
@@ -30,7 +29,8 @@ class UsahaController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('nama_lengkap', 'like', "%{$request->search}%")
-                  ->orWhere('merk_usaha', 'like', "%{$request->search}%");
+                  ->orWhere('merk_usaha', 'like', "%{$request->search}%")
+                  ->orWhere('nik', 'like', "%{$request->search}%");
             });
         }
 
@@ -38,5 +38,22 @@ class UsahaController extends Controller
         $kecamatans = Kecamatan::all();
 
         return view('admin.rekap', compact('usahas', 'kecamatans'));
+    }
+
+    public function show($id)
+    {
+        $usaha = Usaha::with(['kecamatan', 'desa', 'subsektor'])->findOrFail($id);
+        return response()->json($usaha);
+    }
+
+    public function exportSingle($id)
+    {
+        $usaha = Usaha::with(['kecamatan', 'desa', 'subsektor'])->findOrFail($id);
+
+        // Untuk implementasi export PDF/Excel single data
+        return response()->json([
+            'message' => 'Export functionality for ' . $usaha->nama_lengkap,
+            'data' => $usaha
+        ]);
     }
 }

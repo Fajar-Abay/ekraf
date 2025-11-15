@@ -17,12 +17,12 @@ class ArtikelController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'penulis' => 'required|string|max:255',
-            'kategori' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
             'isi' => 'required|string',
             'sumber' => 'nullable|string|max:255',
         ]);
+
+        $validated['penulis'] = Auth::user()->name();
 
         if ($request->hasFile('gambar')) {
              $validated['gambar'] = $request->file('gambar')->store('artikel', 'public');

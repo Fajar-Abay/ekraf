@@ -35,8 +35,8 @@
                     <div class="flex items-center gap-2 mt-3 text-sm text-gray-700">
                         <i class="fa-solid fa-calendar-days text-blue-600"></i>
                         <span>
-                            {{ $artikel->tanggal
-                                ? \Carbon\Carbon::parse($artikel->tanggal)->translatedFormat('l, d F Y')
+                            {{ $artikel->created_at
+                                ? \Carbon\Carbon::parse($artikel->created_at)->translatedFormat('l, d F Y')
                                 : 'Tanggal tidak tersedia' }}
                         </span>
                     </div>

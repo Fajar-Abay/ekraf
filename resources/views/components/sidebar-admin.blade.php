@@ -6,7 +6,7 @@
 >
     <!-- Logo dan Judul -->
     <div class="flex items-center justify-center py-6 border-b border-teal-600">
-        <img src="{{ asset('img/logo.png') }}" alt="Logo" class="w-10 h-10 mr-2">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-10 h-10 mr-2">
         <div class="text-sm font-semibold leading-tight text-center">
             EKONOMI KREATIF<br>SUMEDANG
         </div>
@@ -49,9 +49,14 @@
             <i class="fa-solid fa-database"></i> Database
         </a>
 
+        <a href="{{ url('admin/users') }}" class="flex items-center gap-2 py-2 px-3 rounded hover:bg-[#007F8C]
+            {{ request()->is('admin/users*') ? 'bg-[#007F8C] font-semibold border-l-4 border-white' : '' }}">
+            <i class="fa-solid fa-users"></i> Kelola Users
+        </a>
+
         <a href="{{ url('admin/rekap') }}" class="flex items-center gap-2 py-2 px-3 rounded hover:bg-[#007F8C]
             {{ request()->is('admin/rekap') ? 'bg-[#007F8C] font-semibold border-l-4 border-white' : '' }}">
-            <i class="fa-solid fa-file-lines"></i> Rekap Pendaftaran
+            <i class="fa-solid fa-file-lines"></i> Rekap Pelaku Ekraf
         </a>
 
         <div class="border-t border-teal-600 my-2"></div>

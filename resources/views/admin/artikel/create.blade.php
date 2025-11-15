@@ -23,11 +23,6 @@
             <input type="file" name="gambar" class="w-full border rounded-lg p-2">
         </div>
 
-        <div>
-            <label class="block text-gray-700">Tanggal</label>
-            <input type="date" name="tanggal" class="w-full border rounded-lg p-2">
-        </div>
-
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
             Simpan
         </button>

@@ -43,7 +43,6 @@ class ArtikelController extends Controller
         try {
             $validated = $request->validate([
                 'judul' => 'required|string|max:255',
-                'kategori' => 'required|string|max:255',
                 'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
                 'isi' => 'required|string',
                 'sumber' => 'nullable|string|max:255',
@@ -85,7 +84,6 @@ class ArtikelController extends Controller
         try {
             $validated = $request->validate([
                 'judul' => 'required|string|max:255',
-                'kategori' => 'required|string|max:255',
                 'gambar' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
                 'isi' => 'required|string',
                 'sumber' => 'nullable|string|max:255',

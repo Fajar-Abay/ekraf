@@ -3,21 +3,17 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Support\Facades\Log; // pastikan di atas
-use Illuminate\Http\Request;
-use App\Models\Kecamatan;
 use App\Models\Desa;
+use App\Models\Kecamatan;
+use App\Models\Subsektor;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // pastikan di atas
 
 class UserController extends Controller
 {
     public function index()
     {
         return view('user.beranda');
-    }
-
-    public function tentang()
-    {
-        return view('user.tentang');
     }
 
     public function sektor()
@@ -31,9 +27,9 @@ class UserController extends Controller
 
         // Ambil semua data kecamatan
         $kecamatan = Kecamatan::orderBy('nama_kecamatan')->get(); // bisa diurutkan agar rapi
-
+        $subsektor = Subsektor::all();
         // Kirim variabel $kecamatan ke view
-        return view('user.pendataan', compact('kecamatan'));
+        return view('user.pendataan', compact('kecamatan', 'subsektor'));
 
     }
 

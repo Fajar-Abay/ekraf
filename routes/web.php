@@ -12,13 +12,15 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\TentangController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\KecamatanController;
-use App\Http\Controllers\admin\UsahaController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UsahaController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\StatusUsahaController;
-use App\Http\Controllers\admin\SliderController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\JenisKelaminController;
-use App\Http\Controllers\admin\ArtikelController;
-use App\Http\Controllers\admin\ProfileController;
-use App\Http\Controllers\admin\SubsektorController;
+use App\Http\Controllers\Admin\ArtikelController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SubsektorController;
 use App\Http\Controllers\Petugas\ArtikelController as PetugasArtikelController;
 
 // =====================
@@ -32,7 +34,13 @@ Route::post('/logout', [AuthController::class, "logout"])->name("logout");
 // 🧭 ADMIN ROUTES
 // =====================
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('/', 'admin.dashboard')->name('dashboard');
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+
+    Route::get("/users", [UsersController::class, "index"])->name("users.index");
+    Route::post("/users", [UsersController::class, "store"])->name("users.store");
+    Route::put("/users/{user}", [UsersController::class, "update"])->name("users.update");
+    Route::delete("/users/{user}", [UsersController::class, "destroy"])->name("users.destroy");
+
 
     // Tentang
     Route::get('/tentang', [ProfileController::class, 'index'])->name('tentang');
@@ -56,7 +64,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/kontak/{id}', [KontakController::class, "destroy"])->name("kontak.destroy");
 
     // Rekap Usaha
+   // routes/web.php
     Route::get('/rekap', [UsahaController::class, 'index'])->name('rekap');
+    Route::get('/usaha/{id}', [UsahaController::class, 'show'])->name('usaha.show');
+    Route::get('/usaha/{id}/export', [UsahaController::class, 'exportSingle'])->name('usaha.export');
+
+    // Route untuk mendapatkan desa berdasarkan kecamatan
+    Route::get('/get-desa/{kecamatanId}', function ($kecamatanId) {
+        $desas = Desa::where('kecamatan_id', $kecamatanId)->get();
+        return response()->json($desas);
+    });
 
     // Database (Peta)
     Route::get('/database', [MapController::class, 'index'])->name('database');
@@ -84,14 +101,17 @@ Route::middleware(['auth'])
 // 🌍 PENGGUNA (USER) ROUTES
 // =====================
 Route::prefix('user')->name('user.')->group(function () {
-    Route::get('/', fn() => view('user.beranda'))->name('beranda');
-    Route::get('/tentang', [UserController::class, 'tentang'])->name('tentang');
+    Route::get('/', fn() => view('beranda'))->name('beranda');
+    Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
     Route::get('/sektor', [BerandaController::class, 'subsektor'])->name('sektor');
     Route::get('/pendataan', [UserController::class, 'pendataan'])->name('pendataan');
     Route::get("/artikel", [BeritaController::class, "index"])->name("artikel");
+    Route::get("/artikel/{id}", [BeritaController::class, "show"])->name("artikel.show");
     Route::get('/database', [DatabaseController::class, 'index'])->name('database');
 
 });
+// Menampilkan detail subsektor
+Route::get('/sektor/detail/{slug}', [App\Http\Controllers\BerandaController::class, 'detail'])->name('sektor.detail');
 
 // =====================
 // 📍 DATA & API

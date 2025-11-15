@@ -177,6 +177,17 @@
                             <label for="pendapatan_per_bulan" class="block text-sm font-semibold {{ $text_color }} mb-1">Pendapatan Per Bulan</label>
                             <input type="number" name="pendapatan_per_bulan" id="pendapatan_per_bulan" placeholder="Masukkan pendapatan per bulan..." class="{{ $input_style }}" step="0.01">
                         </div>
+                        <div>
+                            <label for="subsektor" class="block text-sm font-semibold {{ $text_color }} mb-1">
+                                Subsektor
+                            </label>
+                            <select name="subsektor_id" id="subsektor" class="{{ $input_style }}">
+                                <option value="" selected disabled>-- pilih salah satu --</option>
+                                @foreach($subsektor as $sb)
+                                    <option value="{{ $sb->id }}">{{ $sb->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>

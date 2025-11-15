@@ -40,13 +40,6 @@
                     <i class="fa-solid fa-newspaper"></i> Artikel
                 </a>
 
-                <a href="{{ url('database.index') }}"
-                    class="flex items-center gap-3 py-2 px-4 rounded-md transition-all duration-200
-                    hover:bg-white/20 hover:translate-x-1
-                    {{ request()->routeIs('database.index') ? 'bg-white/25' : '' }}">
-                    <i class="fa-solid fa-database"></i> Database
-                </a>
-
                 <a href="#"
                     class="flex items-center gap-3 py-2 px-4 rounded-md hover:bg-white/20 transition-all duration-200">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout

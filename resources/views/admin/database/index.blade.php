@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('judul', 'Peta Interaktif Kecamatan Sumedang')
+@section('judul', 'Database ekraf sumedang')
 
 @section('main')
 <div class="p-6">
     <h1 class="text-2xl font-bold text-[#004b5c] mb-4">
-        Peta Interaktif Kecamatan Kabupaten Sumedang
+        Database ekraf sumedang
     </h1>
 
     {{-- Peta utama --}}
